@@ -3,14 +3,17 @@
 #include "constants.h"
 #include "pulse.h"
 #include "rainbow.h"
+#include "pinReader.h"
 
 CRGB g_leds[NUM_LEDS]; //create our LED array object for all our LEDs
 Rainbow rb = Rainbow();
-Pulse gold = Pulse();
-Pulse red = Pulse();
-Pulse green = Pulse();
-Pulse blue = Pulse();
-Pulse purple = Pulse();
+Pulse pulseGold = Pulse();
+Pulse pulseRed = Pulse();
+Pulse pulseGreen = Pulse();
+Pulse pulseBlue = Pulse();
+Pulse pulsePurple = Pulse();
+PinReader reader = PinReader();
+
 int mode = 0;
 
 void setup() {
@@ -19,32 +22,39 @@ void setup() {
   FastLED.setBrightness(BRIGHTNESS);
   FastLED.clear();
   FastLED.show();
-  gold.init(CRGB::Gold);
-  red.init(CRGB::Red);
-  green.init(CRGB::Green);
-  blue.init(CRGB::Blue);
-  purple.init(CRGB::Purple);
+  pulseGold.init(CRGB::Gold);
+  pulseRed.init(CRGB::Red);
+  pulseGreen.init(CRGB::Green);
+  pulseBlue.init(CRGB::Blue);
+  pulsePurple.init(CRGB::Purple);
   rb.init(100);
+  reader.init();
 
-  mode = 5;
+  Serial.begin(9600);
+  Serial.println("Setup Complete");
 }
 
 void loop() {
+  mode = reader.read();
+  Serial.println(mode);
+  //Serial.print("Pin 9 ");
+  //Serial.println(digitalRead(9));
+
   switch (mode) {
     case 1:
-      gold.update();
+      pulseGold.update();
       break;
     case 2:
-      red.update();
+      pulseRed.update();
       break;
     case 3:
-      green.update();
+      pulseGreen.update();
       break;
     case 4:
-      blue.update();
+      pulseBlue.update();
       break;
     case 5:
-      purple.update();
+      pulsePurple.update();
       break;
     default:
       rb.update();

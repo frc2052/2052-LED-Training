@@ -12,9 +12,7 @@ private:
     CHSV rainbowColor = CHSV(0, 255, 255); //initialize to red
 
 
-public:
-    Rainbow(){} //constructor
-    
+public:    
     void init(int delay){
         waitMS = delay;
     }
